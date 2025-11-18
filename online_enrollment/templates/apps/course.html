@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Enrollment{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <h1>Courses</h1>
+        <ul>
+            {% for course in courses %}
+                <li>{{ course.course_id }}</li>
+                <li>{{ course.course_name }}</li>
+                <li>{{ course.course_description }}</li>
+                <li>{{ course.students_enrolled }}</li>
+                <li>{{ course.program_head }}</li>
+                <hr>
+            {% empty %}
+                <li>walang laman.</li>
+            {% endfor %}
+        </ul>
+    </div>
+       
+{% endblock %}
