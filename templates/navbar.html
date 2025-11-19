@@ -1,9 +1,18 @@
-<nav>
-    <h1>my school</h1>
+<nav class="navbar bg-base-100 shadow">
+  <div class="flex-1">
+    <a class="btn btn-ghost text-xl">Gambaron University</a>
+  </div>
 
-    <ul>
-        <a href="">profile</a>
-        <a href="">subject</a>
-        <a href="{% url "logout" %}">logout</a>
+  <div class="flex-none">
+    <ul class="menu menu-horizontal px-1">
+      <li><a href="{% url 'home' %}">Home</a></li>
+      <li><a href="{% url "profile" user.pk %}">Profile</a></li>
+      <li>
+        <form method="POST" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button class="btn btn-error btn-sm ml-2">Logout</button>
+        </form>
+      </li>
     </ul>
+  </div>
 </nav>

@@ -1,17 +1,9 @@
 from django.db import models
-
-
-# Create your models here.
-class TestingDatabase(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    registration_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.first_name} - {self.last_name}"
-    
+from django.contrib.auth.models import User
 
 class Students(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_profile = models.ImageField(upload_to='images/')
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     age = models.IntegerField()
@@ -21,17 +13,19 @@ class Students(models.Model):
 
     def __str__(self):
         return f"{self.first_name} - {self.section}"
-    
+
 class Subjects(models.Model):
     subject_code = models.CharField(max_length=100)
     subject_name = models.CharField(max_length=100)
     instruction = models.CharField(max_length=100)
     room = models.CharField(max_length=100)
     department = models.CharField(max_length=100)
-    time = models.TimeField()
+    time = models.TimeField()  # make sure this exists
+
 
     def __str__(self):
         return f"{self.subject_code} - {self.subject_name} - {self.time.strftime('%I:%M %p')}"
+
 
 class Instructor(models.Model):
     instructor_id = models.CharField(max_length=20)
@@ -53,7 +47,6 @@ class Enrollment(models.Model):
     def __str__(self):
         return f"{self.student_id} - {self.course}"
 
-
 class Course(models.Model):
     course_id = models.CharField(max_length=20)
     course_name = models.CharField(max_length=200)
@@ -63,5 +56,3 @@ class Course(models.Model):
 
     def __str__(self):
         return f"{self.course_name} - {self.program_head}"
-
-    

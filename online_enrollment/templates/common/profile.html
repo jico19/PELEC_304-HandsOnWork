@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Profile | {{ user.username }}{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gray-50 py-12 px-4 flex flex-col items-center space-y-8">
+
+    {% if user_data %}
+    <!-- USER PROFILE CARD -->
+    <div class="w-full lg:w-4/5 bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center space-y-6">
+        {% if user_data.user_profile %}
+        <img src="{{ user_data.user_profile.url }}" alt="Profile Image"
+             class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-indigo-500 shadow-md hover:scale-105 transition-transform duration-300">
+        {% else %}
+        <div class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-xl md:text-2xl shadow-inner">
+            No Image
+        </div>
+        {% endif %}
+
+        <div class="text-center space-y-2">
+            <h1 class="text-2xl md:text-3xl font-bold text-indigo-600">{{ user_data.first_name }} {{ user_data.last_name }}</h1>
+            <p><span class="font-semibold">Age:</span> {{ user_data.age }}</p>
+            <p><span class="font-semibold">Student ID:</span> {{ user_data.student_id }}</p>
+            <p><span class="font-semibold">Course:</span> {{ user_data.course }}</p>
+            <p><span class="font-semibold">Section:</span> {{ user_data.section }}</p>
+        </div>
+
+        <a href="{% url 'update_student' user.pk %}" class="btn btn-indigo mt-4 px-6 py-2 font-semibold shadow hover:scale-105 transition-transform duration-200">
+            Edit Profile
+        </a>
+    </div>
+
+    <!-- SUBJECTS LIST -->
+    <div class="w-full lg:w-4/5 flex flex-col space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-indigo-600 border-b-2 border-indigo-600 pb-2 text-center">Subjects</h2>
+
+        {% if subjects %}
+        {% for subject in subjects %}
+        <div class="bg-white rounded-2xl shadow-md p-6 border border-gray-200 hover:shadow-lg hover:scale-105 transition-transform duration-300">
+            <h3 class="text-lg md:text-xl font-bold text-indigo-700 mb-2 text-center">{{ subject.subject_code }} - {{ subject.subject_name }}</h3>
+            <ul class="space-y-1 text-gray-700 text-sm md:text-base">
+                <li><span class="font-semibold">Instructor:</span> {{ subject.instruction }}</li>
+                <li><span class="font-semibold">Room:</span> {{ subject.room }}</li>
+                <li><span class="font-semibold">Department:</span> {{ subject.department }}</li>
+                <li><span class="font-semibold">Time:</span> {{ subject.time|time:"h:i A" }}</li>
+            </ul>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p class="text-center text-gray-400 mt-4">No subjects available.</p>
+        {% endif %}
+    </div>
+
+    {% else %}
+    <div class="text-center py-32 w-full lg:w-4/5">
+        <p class="mb-6 text-lg text-gray-600">You have not configured your profile yet.</p>
+        <a href="{% url 'create_profile' %}" class="btn btn-indigo btn-lg px-8 py-3 font-semibold shadow hover:scale-105 transition-transform duration-200">
+            Configure Profile
+        </a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

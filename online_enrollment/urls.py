@@ -10,6 +10,8 @@ urlpatterns = [
     path('logout/', views.LogoutView, name="logout"),
     # pages
     path('home/', views.HomeView, name="home"),
+    path('profile/<int:pk>/', views.ProfileView, name="profile"),
+    path('profile/create/', views.ConfigureProfileView, name="create_profile"),
     # students
     path('students/', views.StudentView, name="students"),
     path('students/update/<int:pk>/', views.UpdateStudentView, name="update_student"),

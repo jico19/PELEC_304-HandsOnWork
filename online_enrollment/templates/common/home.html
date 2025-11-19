@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="min-h-screen bg-gray-50 px-4 py-12 flex flex-col items-center space-y-8">
+
+    <!-- WELCOME MESSAGE -->
+    <div class="w-full max-w-4xl bg-white rounded-xl shadow p-6 text-center">
+        <h1 class="text-2xl font-bold text-gray-800">Welcome to Gambaron Uni, {{ user.username }}!</h1>
+        <p class="text-gray-600 mt-2">Here's a quick overview of your school activities.</p>
+    </div>
+
+    <!-- QUICK LINKS -->
+    <div class="w-full max-w-4xl flex flex-col sm:flex-row justify-around gap-4">
+        <a href="{% url "profile" user.pk %}" class="bg-white rounded-xl shadow p-4 text-center w-full sm:w-1/4">Profile</a>
+        <a  href="{% url "subjects" %}" class="bg-white rounded-xl shadow p-4 text-center w-full sm:w-1/4">Subjects</a>
+        <a  href="{% url "students" %}" class="bg-white rounded-xl shadow p-4 text-center w-full sm:w-1/4">Students</a>
+        <a  href="" class="bg-white rounded-xl shadow p-4 text-center w-full sm:w-1/4">Announcements</a>
+    </div>
+
+    <!-- ANNOUNCEMENTS -->
+    <div class="w-full max-w-4xl flex flex-col space-y-4">
+        <h2 class="text-xl font-bold text-gray-800 border-b pb-2">Announcements</h2>
+
+        <div class="bg-white rounded-xl shadow p-4">
+            <div class="font-semibold">School Opening</div>
+            <div class="text-gray-600 text-sm">Gambaron Uni classes start on January 10, 2026. Please check your schedule.</div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-4">
+            <div class="font-semibold">Library Renovation</div>
+            <div class="text-gray-600 text-sm">The main library will be closed from December 1 to December 20, 2025, for renovations.</div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-4">
+            <div class="font-semibold">Student Orientation</div>
+            <div class="text-gray-600 text-sm">Orientation for new students will be held on January 8, 2026, at the University Auditorium.</div>
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}

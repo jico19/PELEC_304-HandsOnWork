@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Create | {{ user.username }}{% endblock %}
+
+{% block content %}
+<div class="flex justify-center items-center min-h-screen bg-base-200">
+    <div class="card w-full max-w-xl bg-base-100 shadow-xl p-8">
+
+        <h1 class="text-3xl font-bold mb-6 text-center text-primary">Configure Profile</h1>
+
+        <form method="POST" enctype="multipart/form-data" class="space-y-5">
+            {% csrf_token %}
+
+            <!-- First Name -->
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text font-semibold">First Name</span>
+                </label>
+                <input type="text" name="first_name" class="input input-bordered w-full" value="{{ form.first_name.value }}">
+                {% if form.first_name.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.first_name.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Last Name -->
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text font-semibold">Last Name</span>
+                </label>
+                <input type="text" name="last_name" class="input input-bordered w-full" value="{{ form.last_name.value }}">
+                {% if form.last_name.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.last_name.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Age -->
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text font-semibold">Age</span>
+                </label>
+                <input type="number" name="age" class="input input-bordered w-full" value="{{ form.age.value }}">
+                {% if form.age.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.age.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Course -->
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text font-semibold">Course</span>
+                </label>
+                <input type="text" name="course" class="input input-bordered w-full" value="{{ form.course.value }}">
+                {% if form.course.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.course.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Section -->
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text font-semibold">Section</span>
+                </label>
+                <input type="text" name="section" class="input input-bordered w-full" value="{{ form.section.value }}">
+                {% if form.section.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.section.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Student ID -->
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text font-semibold">Student ID</span>
+                </label>
+                <input type="text" name="student_id" class="input input-bordered w-full" value="{{ form.student_id.value }}">
+                {% if form.student_id.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.student_id.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Profile Image -->
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text font-semibold">Profile Image</span>
+                </label>
+                <input type="file" name="user_profile" class="file-input file-input-bordered w-full">
+                {% if form.user_profile.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ form.user_profile.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-full mt-4">Save Profile</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

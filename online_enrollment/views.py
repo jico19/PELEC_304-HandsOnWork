@@ -15,7 +15,7 @@ def StudentView(request):
     else:
         form = StudentForm()
 
-    return render(request, 'apps/students.html', {
+    return render(request, 'student/students.html', {
         "students": students_data,
         "forms": form
     })
@@ -30,7 +30,7 @@ def UpdateStudentView(request, pk):
     else:
         form = StudentForm(instance=student)
 
-    return render(request, 'apps/update_student.html', {
+    return render(request, 'student/update_student.html', {
         "forms": form
     })
 
@@ -41,21 +41,23 @@ def DeleteStudentView(request, pk):
             student.delete()
             return redirect('students')
 
-    return render(request, 'apps/student_delete_conf.html')
+    return render(request, 'student/student_delete_conf.html')
 
 def SubjectsView(request):
     subjects_data = Subjects.objects.all()
 
     if request.method == 'POST':
         form = SubjectsForm(request.POST)
+        print(form)
         if form.is_valid():
+            print("tite")
             form.save()
     else:
         form = SubjectsForm()
 
-    return render(request, 'apps/subjects.html', {
+    return render(request, 'subjects/subjects.html', {
         "subjects": subjects_data,
-        "forms": form
+        "form": form
     })
 
 def UpdateSubjectsView(request, pk):
@@ -68,7 +70,7 @@ def UpdateSubjectsView(request, pk):
     else:
         form = SubjectsForm(instance=subject)
 
-    return render(request, 'apps/update_subject.html', {
+    return render(request, 'subjects/update_subject.html', {
         "forms": form
     })
 
@@ -79,14 +81,52 @@ def DeleteSubjectView(request, pk):
             subject.delete()
             return redirect('subjects')
         
-    return render(request, 'apps/subject_delete_conf.html')
+    return render(request, 'subjects/subject_delete_conf.html')
 
 def HomeView(request):
-    # redirect user if not login
     if not request.user.is_authenticated:
         return redirect('login')
 
-    return render(request, 'apps/home.html')
+    return render(request, 'common/home.html')
+
+def ProfileView(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    # checks if user has a students profile
+    try:
+        user_profile_data = Students.objects.get(user__pk=pk)
+        subjects = Subjects.objects.all()
+        
+    except Students.DoesNotExist:
+        user_profile_data = None
+    
+    
+    return render(request, 'common/profile.html', {
+        "user_data": user_profile_data,
+        "subjects": subjects
+    })
+
+def ConfigureProfileView(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    if request.method == 'POST':
+        form = StudentForm(request.POST, request.FILES)
+        if form.is_valid():
+            student = form.save(commit=False)
+            student.user = request.user  # attach logged-in user here
+            student.save()
+            return redirect('profile', pk=student.pk)
+        else:
+            print(form.errors)  # debug any other errors
+    else:
+        form = StudentForm()
+
+    return render(request, 'common/config_profile.html', {
+        "form": form,
+        
+    })
 
 
 def LoginView(request):
@@ -106,10 +146,9 @@ def LoginView(request):
     else:
         form = LoginForm()
 
-    return render(request, 'apps/login.html', {
+    return render(request, 'auth/login.html', {
         "forms": form
     })
-
 
 def RegisterView(request):
 
@@ -119,14 +158,14 @@ def RegisterView(request):
             data = form.cleaned_data
             User.objects.create_user(
                 username=data['username'],
-                password=data['password']
+                password=data['password1']
             )
             messages.success(request, "Successfully registerd. please proceed to login.")
             return redirect('register')
     else:
         form = RegisterForm()
 
-    return render(request, 'apps/register.html', {
+    return render(request, 'auth/register.html', {
         "forms": form
     })
 
